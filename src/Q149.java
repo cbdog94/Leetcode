@@ -6,8 +6,6 @@ import java.util.Map;
 public class Q149 {
 
     public static void main(String[] args) {
-//        System.out.println(0.0==-0.0);
-
         Q149 q = new Q149();
         System.out.println(q.gcd(-1, 2));
         System.out.println(q.gcd(0, 1));
@@ -31,21 +29,17 @@ public class Q149 {
             countMap.put(tmp, count);
             max = Math.max(max, count);
         }
-//        System.out.println(single.size());
-//        System.out.println(countMap);
         Map<String, Integer> map = new HashMap<>();
         for (int i = 0; i < single.size(); i++) {
             Map<String, Integer> curMap = new HashMap<>();
             for (int j = i + 1; j < single.size(); j++) {
                 int gcd = gcd(single.get(j).y - single.get(i).y, single.get(j).x - single.get(i).x);
                 String k = single.get(j).x == single.get(i).x ? "Nan" : (single.get(j).y == single.get(i).y ? "0" : (single.get(j).y - single.get(i).y) / gcd + " " + (single.get(j).x - single.get(i).x) / gcd);
-//                System.out.println(k);
                 if (!map.containsKey(k)) {
                     int tmp = curMap.getOrDefault(k, countMap.get(single.get(i).x + " " + single.get(i).y)) + countMap.get(single.get(j).x + " " + single.get(j).y);
                     max = Math.max(max, tmp);
                     curMap.put(k, tmp);
                 }
-//                System.out.println(curMap);
             }
             map.putAll(curMap);
         }
