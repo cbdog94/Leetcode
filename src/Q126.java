@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Q126 {
 
@@ -11,11 +9,83 @@ public class Q126 {
     }
 
     public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
-        List<String> tmp = new ArrayList<>();
+        if (!wordList.contains(endWord)) {
+            return new ArrayList<>();
+        }
+
+        wordList.remove(endWord);
+
+        Queue<List<String>> start = new LinkedList<>();
+        start.offer(Collections.singletonList(beginWord));
+        Queue<List<String>> end = new LinkedList<>();
+        end.offer(Collections.singletonList(endWord));
+
         List<List<String>> result = new ArrayList<>();
-        tmp.add(beginWord);
-        findLadders(beginWord, endWord, wordList, tmp, result);
+        boolean reverse = false;
+        while (!start.isEmpty() && !end.isEmpty()) {
+            if (start.size() > end.size()) {
+                Queue<List<String>> tmp = start;
+                start = end;
+                end = tmp;
+                reverse = !reverse;
+            }
+            int n = start.size();
+            List<String> del = new ArrayList<>();
+            boolean flag = false;
+            for (int i = 0; i < n; i++) {
+                List<String> tmp = start.poll();
+
+                for (String cur : wordList) {
+                    if (helper(tmp.get(tmp.size() - 1), cur)) {
+                        List<String> add = new ArrayList<>(tmp);
+                        add.add(cur);
+                        start.offer(add);
+                        del.add(cur);
+//                        if (cur.equals(endWord)) {
+//                            result.add(add);
+//                            flag = true;
+//                        }
+                    }
+                }
+
+                for (List<String> cur : end) {
+                    if (helper(tmp.get(tmp.size() - 1), cur.get(cur.size() - 1))) {
+                        flag = true;
+                        if (reverse) {
+                            List<String> e = new ArrayList<>(tmp);
+                            List<String> s = new ArrayList<>(cur);
+                            Collections.reverse(e);
+                            s.addAll(e);
+                            result.add(s);
+                        } else {
+                            List<String> s = new ArrayList<>(tmp);
+                            List<String> e = new ArrayList<>(cur);
+                            Collections.reverse(e);
+                            s.addAll(e);
+                            result.add(s);
+                        }
+                    }
+                }
+            }
+            if (flag) {
+                return result;
+            }
+            wordList.removeAll(del);
+        }
         return result;
+    }
+
+    private boolean helper(String tmp, String cur) {
+        int count = 0;
+        for (int i = 0; i < tmp.length(); i++) {
+            if (tmp.charAt(i) != cur.charAt(i)) {
+                count++;
+                if (count > 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public void findLadders(String beginWord, String endWord, List<String> wordList, List<String> tmp, List<List<String>> result) {
