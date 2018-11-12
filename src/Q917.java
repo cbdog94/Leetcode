@@ -3,7 +3,7 @@ public class Q917 {
     public static void main(String[] args) {
         System.out.println(new Q917().reverseOnlyLetters("ab-cd"));
         System.out.println(new Q917().reverseOnlyLetters("a-bC-dEf-ghIj"));
-        System.out.println(new Q917().reverseOnlyLetters("Test1ng-Leet=code-Q!"));
+        System.out.println(new Q917().reverseOnlyLetters("Test1ng-Leet=code-Q938!"));
     }
 
     public String reverseOnlyLetters(String S) {
@@ -35,6 +35,6 @@ Input: "a-bC-dEf-ghIj"
 Output: "j-Ih-gfE-dCba"
 Example 3:
 
-Input: "Test1ng-Leet=code-Q!"
+Input: "Test1ng-Leet=code-Q938!"
 Output: "Qedo1ct-eeLg=ntse-T!"
  */
