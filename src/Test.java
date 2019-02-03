@@ -1,17 +1,13 @@
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Test {
 
 
     public static void main(String[] args) {
-        Stack<Double> stack = new Stack<>();
-        stack.push(1.0);
-        stack.push(2.0);
-        System.out.println(stack.size);
-//        System.out.println(stack.pop());
-//        System.out.println(stack.pop());
-        for (Double d : stack) {
-            System.out.println(d);
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = 0; i < 11; i++) {
+            list.add(i);
         }
     }
 

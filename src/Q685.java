@@ -8,13 +8,32 @@ public class Q685 {
     }
 
     public int[] findRedundantDirectedConnection(int[][] edges) {
-        UnionFind uf = new UnionFind(edges.length);
-        for (int[] edge : edges) {
-            if (!uf.union(edge[0], edge[1])) {
-                return edge;
+        UnionFind uf = new UnionFind(edges.length + 1);
+        int[] parents = new int[edges.length + 1];
+        int[] can1 = null, can2 = null;
+        for (int i = 0; i < edges.length; i++) {
+            int[] edge = edges[i];
+            if (parents[edge[1]] != 0) {
+                can1 = new int[]{parents[edge[1]], edge[1]};
+                can2 = new int[]{edge[0], edge[1]};
+                edges[i][0] = 0;
+                break;
+            } else {
+                parents[edge[1]] = edge[0];
             }
         }
-        return null;
+        for (int[] edge : edges) {
+            if (edge[0] != 0) {
+                if (!uf.union(edge[0], edge[1])) {
+                    if (can1 == null) {
+                        return edge;
+                    } else {
+                        return can1;
+                    }
+                }
+            }
+        }
+        return can2;
     }
 
     class UnionFind {
@@ -42,13 +61,13 @@ public class Q685 {
             if (rootX == rootY) {
                 return false;
             }
-//            if (rank[rootX] < rank[rootY]) {
-//                parent[rootX] = rootY;
-//                rank[rootY] += rank[rootX];
-//            } else {
-            parent[rootY] = rootX;
-            rank[rootX] += rank[rootY];
-//            }
+            if (rank[rootX] < rank[rootY]) {
+                parent[rootX] = rootY;
+                rank[rootY] += rank[rootX];
+            } else {
+                parent[rootY] = rootX;
+                rank[rootX] += rank[rootY];
+            }
             return true;
         }
     }

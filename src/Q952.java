@@ -1,3 +1,7 @@
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public class Q952 {
 
     public static void main(String[] args) {
@@ -7,34 +11,45 @@ public class Q952 {
     }
 
     public int largestComponentSize(int[] A) {
-        UnionFind uf = new UnionFind(A.length);
-//        Arrays.sort(A);
-        for (int i = 0; i < A.length; i++) {
-            if (A[i] != 1) {
-                for (int j = i + 1; j < A.length; j++) {
-                    if (A[j] != 1) {
-                        int gcd = mgcd(A[i], A[j]);
-                        if (gcd != 1) {
-                            A[j] /= gcd;
-                            uf.union(i, j);
-                        }
-                    }
+        final int maxPrime = 100001;
+        boolean[] isPrime = new boolean[maxPrime];
+        Arrays.fill(isPrime, true);
+        Set<Integer> primes = new HashSet<>();
+        for (int i = 2; i < maxPrime; i++) {
+            if (isPrime[i]) {
+                primes.add(i);
+                for (int j = 2; i * j < maxPrime; j++) {
+                    isPrime[i * j] = false;
                 }
             }
         }
-//        System.out.println(Arrays.toString(uf.parent));
-        return uf.max();
-    }
 
-
-    private int mgcd(int a, int b) {
-        int temp;
-        while (b != 0) {
-            temp = b;
-            b = a % b;
-            a = temp;
+        UnionFind uf = new UnionFind(A.length);
+        int[] index = new int[maxPrime];
+        Arrays.fill(index, -1);
+        for (int i = 0; i < A.length; i++) {
+            int a = A[i];
+            for (int prime : primes) {
+                // Optimization
+                if (primes.contains(a)) {
+                    prime = a;
+                }
+                if (a % prime == 0) {
+                    if (index[prime] == -1) {
+                        index[prime] = i;
+                    } else {
+                        uf.union(index[prime], i);
+                    }
+                    while (a % prime == 0) {
+                        a /= prime;
+                    }
+                }
+                if (a == 1) {
+                    break;
+                }
+            }
         }
-        return a;
+        return uf.max();
     }
 
     class UnionFind {
