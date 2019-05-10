@@ -1,4 +1,5 @@
 public class Q1028 {
+
     public static void main(String[] args) {
         System.out.println(new Q1028().recoverFromPreorder("1-2--3---4-5--6---7"));
         System.out.println(new Q1028().recoverFromPreorder("1-401--349---90--88"));
