@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Ali3 {
+public class Ali3 extends Ali4 {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
