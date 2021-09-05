@@ -18,7 +18,6 @@ public class Ali2 {
 
 
     private static boolean isInSimple(double[][] p, int n, double[] po) {
-
         int i, j = n - 1;
         boolean oddNodes = false;
         for (i = 0; i < n; i++) {
